@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -19,10 +19,13 @@ function App() {
 //         }
 
 // No:5
-const Products =[{name:'PhotoShop', price: '$0.90'},
+const Products =[
+  {name:'PhotoShop', price: '$0.90'},
   {name:'Illautrator', price:'$0.99'},
   {name:'PDF Reader', price:'$0.79'}
 ]
+// No:6
+const nayoks = ['Abdul Razzak', 'Rubel','Salman shah','Omorsani']
   return (
     <div className="App">
       <header className="App-header">
@@ -54,10 +57,24 @@ const Products =[{name:'PhotoShop', price: '$0.90'},
        <Product name = 'Television' price ="$300"></Product>
         
    */}
-   
-   <Product product = {Products[0]} ></Product>
+
+   {/* No:5 */}
+   {/* <Product product = {Products[0]} ></Product>
     <Product product={Products[1]}></Product>
-   <Product product={Products[2]}></Product> 
+   <Product product={Products[2]}></Product>  */}
+                  {/* OR, */}
+                  
+     {Products.map(product => <Product product ={product}></Product>)}
+
+    {/* No:6  */}
+   <ul>
+     {nayoks.map(nayok => <li>{ nayok}</li>)}
+     { Products.map(product => <li>{product.name}</li>)}
+   </ul>
+
+   {/* No:7 */}
+   <Counter></Counter>
+   <Users></Users>
    
       </header>
     </div>
@@ -119,7 +136,7 @@ const Products =[{name:'PhotoShop', price: '$0.90'},
 // no.5
 
 function Product (props){
-  const ProductStyle ={
+  const productStyle ={
     border:'2px solid gray',
     borderRadius:'5px 4px 7px gray',
     boxShadow: "2px 1px  5px gray",
@@ -132,11 +149,54 @@ function Product (props){
     
   }
   return (
-  <div style = {ProductStyle}>
+  <div style = {productStyle}>
     <h2>{props.product.name} </h2>
   <h1>Price:{props.product.price}</h1>
   <button>Buy Now</button>
   </div>
   )
 }
+
+// No:7                                           OR
+function Counter(){                         //function Counter(){
+  const [counter, setCounter]  = useState(0);  // const [count, setCount] = useState(0);
+  const handleIncrease = ()=>{              // const handleIncrease = () =>{
+    const newCount = counter + 1;            // setCount(count + 1)
+    setCounter(newCount) ;                     //}
+  }                                          //return(
+    const handleDecrease = ()=>{              //<div>      
+      const newsCount = counter -1;                                     
+ setCounter(newsCount);                        // </div>
+ 
+    };                                        
+  return(
+    <div>
+      <h1>count: {counter}</h1>
+      <button onMouseMove = {handleDecrease}>Decrease</button>
+      <button onClick = {handleIncrease}>Increase </button>
+      
+    </div>
+  )
+}
+
+//No: 8
+ function Users(){
+   const[users,setUsers] = useState([]);
+   useEffect(()=>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(response => response.json())
+    .then(data =>setUsers (data))
+     }) 
+   return(
+     <div>
+       <h3 >Dynamic users:{users.length}</h3>
+      {/* {console.log(users)} */}
+      <ul>
+        {
+          users.map(user =><li>{user.name + " " + user.phone}</li>)
+        }
+      </ul>
+     </div>
+   )
+ }
 export default App;
